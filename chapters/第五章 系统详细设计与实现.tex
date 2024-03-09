@@ -3,6 +3,13 @@
 \chapter{系统详细设计与实现}
 
 \section{流水线管理}
+% 流水线管理主要包含对流水线中各个子概念及其操作的封装。类图如图\ref{fig:流水线管理类图}所示。
+% \begin{figure}[h]
+%   \centering
+%   \includegraphics[width=1\textwidth]{流水线管理类图.png}
+%   \caption{流水线管理类图}
+%   \label{fig:流水线管理类图}
+% \end{figure}
 
 \section{镜像管理}
 镜像管理的实现主要涉及到对Docker镜像及其操作的封装抽象，以及对Layer层的管理。类图如图\ref{fig:镜像管理类图}所示。
@@ -60,18 +67,25 @@ ImageLayer.createFile()和ImageLayer.maintianFile()方法会扫描Docker镜像�
 
 \section{节点管理}
 
+
+
+\subsubsection{节点一键部署}
+
+\subsubsection{节点的上线与下线}
+
+
 \section{插件市场}
 
 \section{调度器的实现}
 
 \subsection{状态转移模块的实现}
 
-调度器中以状态机的设计模型来控制流水线中各个子概念的状态流转。
-首先以作业为例介绍作业状态机的详细设计。
+调度器中以状态机的设计模型来控制流水线中作业和任务的状态流转。
+以下介绍作业状态机的详细设计，任务状态机与作业状态机极为相似，此处不再赘述。
 
 按照有限状态机的设计理念，我们首先需要确定作业状态机的状态（State）和事件（Event）。
-依据需求分析，我们知道作业有：就绪中（Pending）、执行中（Running）、执行成功（Success）、执行失败（Failed）、被跳过（Skipped）和被取消（Canceled）六种状态。
-会导致作业状态发生转移的事件包括：触发（Trigger）、重试（Retry）、作业成功（Success）、作业失败（Fail）、作业执行超时（Timeout）、跳过（Skip）、取消（Cancel）。
+依据需求分析，系统中设计了以下作业状态：就绪中（Pending）、执行中（Running）、执行成功（Success）、执行失败（Failed）、被跳过（Skipped）和被取消（Canceled）。
+同时设计了以下事件：触发（triggerEvent）、重试（retryEvent）、作业成功（successEvent）、作业失败（failEvent）、作业执行超时（timeoutEvent）、跳过（skipEvent）、取消（cancelEvent）、审核通过（reviewApproveEvent）和审核失败（reviewRejectEvent）。
 依据状态机的设计模式，系统中将流水线作业的不同状态封装为类，将引起其状态转移的事件设置为成员方法。图~\ref{fig:作业状态机类图}为作业状态机类图。
 
 \begin{figure}[h]
