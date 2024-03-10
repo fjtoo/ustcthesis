@@ -66,15 +66,31 @@ ImageLayer.createFile()和ImageLayer.maintianFile()方法会扫描Docker镜像�
 
 
 \section{节点管理}
+节点管理中对节点、标签和节点部署器中的属性与操作进行了封装抽象，其中节点部署器封装了一系列与节点服务器交互的方法，借助ShellHelper工具类完成使用shell语句与服务器间的交互。
+类图如图\ref{fig:节点管理类图}所示。其中ShellHelper类是Shell语句的封装辅助类，将具体的shell语句与业务代码解耦。
+Deployer则封装了节点管理中一切与节点服务器交互的方法，将服务器操作与Pod操作类解耦。
+Pod类则表示了一个节点对象，与数据库中的一个一条节点记录一一对应，封装了一系列节点属性与节点操作。
 
+接下来重点介绍节点的部署与节点上下线的详细设计。
 
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=1\textwidth]{节点管理类图.png}
+  \caption{节点管理类图}
+  \label{fig:节点管理类图}
+\end{figure}
 
 \subsubsection{节点一键部署}
+首先，系统在ShellHelper类中设计了execCommandCheck()私有方法，这一方法包含了执行shell语句和检查shell语句两个功能，
+如果shell语句执行过程中报错，会根据不同的错误类型返回不同的错误码，这一私有方法在其他方法中被大量调用。
+其余ShellHelper类中的方法则是对递归创建文件、启动服务、停止服务等语句的封装，以供Deployer调用。
+
+在节点部署的核心过程如下：首先需要调用ShellHelper.connectDevice()连接到目标服务器，然后递归创建预设的一系列目录结构，并备份原配置文件为bak文件，
+分别由ShellHelper中mkdir()和backupAndOpen()方法实现。此后根据执行器的预设yaml文件对服务器配置文件进行写入，同时使用curl命令从远程拉取执行器的二进制执行文件。
+此后便可以通过调用ShellHelper.startService()方法，该方法中包含三个部分：首先执行systemctl daemon-reload命令来重新加载配置文件，以保证执行器的配置是最新的，
+然后执行systemctl enable来启动执行器服务，最后，自动化部署脚本中，还要执行systemctl restart以便确保所有配置的更改都被采用，并且服务是按照最新配置运行的。
 
 \subsubsection{节点的上线与下线}
-
-
-\section{插件市场}
 
 \section{调度器的实现}
 
