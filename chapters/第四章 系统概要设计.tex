@@ -252,7 +252,6 @@ Backend有以下三种典型服务场景：
 数据存储层是对本系统中各个数据和文件存储服务的抽象，负责整个系统所有数据的持久化服务。
 包括流水线以及其子概念的配置信息、运行记录、Docker镜像、作业执行产物（如编译后压缩产生的tar包等）以及作业运行日志等。
 
-
 本系统中，使用PostgreSQL存储流水线的配置和运行记录的相关数据，这部分数据属于结构化数据，数据字段和格式较为固定，故采用业界主流的关系型数据库进行存储和管理；
 使用Redis存储缓存信息，加快接口的响应速度，提升用户体验；
 JFrog Artifactory存储镜像管理模块涉及到的Docker镜像，以及流水线任务执行完成后的执行产物，比如单元测试报告等；
@@ -298,7 +297,6 @@ JFrog Artifactory存储镜像管理模块涉及到的Docker镜像，以及流水
 
 \subsubsection{创建并配置流水线}
 
-
 \subsubsection{触发流水线}
 
 
@@ -338,7 +336,7 @@ JFrog Artifactory存储镜像管理模块涉及到的Docker镜像，以及流水
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=1\textwidth]{镜像制作活动图.png}
+  \includegraphics[width=0.8\textwidth]{镜像制作活动图.png}
   \caption{镜像制作活动图}
   \label{fig:镜像制作活动图}
 \end{figure}
@@ -358,7 +356,7 @@ Docker镜像为了节省存储和带宽，采用了分层构建的机制，镜�
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=1\textwidth]{镜像层级图.png}
+  \includegraphics[width=0.8\textwidth]{镜像层级图.png}
   \caption{镜像-Manifest文件-层级关系图}
   \label{fig:镜像-Manifest文件-层级关系图}
 \end{figure}
@@ -370,7 +368,7 @@ Docker镜像为了节省存储和带宽，采用了分层构建的机制，镜�
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=1\textwidth]{镜像删除活动图.png}
+  \includegraphics[width=0.8\textwidth]{镜像删除活动图.png}
   \caption{镜像删除活动图}
   \label{fig:镜像删除活动图}
 \end{figure}
@@ -410,7 +408,7 @@ Docker镜像为了节省存储和带宽，采用了分层构建的机制，镜�
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=1\textwidth]{节点一键部署活动图.png}
+  \includegraphics[width=0.8\textwidth]{节点一键部署活动图.png}
   \caption{节点一键部署活动图}
   \label{fig:节点一键部署活动图}
 \end{figure}
@@ -426,7 +424,7 @@ Docker镜像为了节省存储和带宽，采用了分层构建的机制，镜�
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=1\textwidth]{节点上线活动图.png}
+  \includegraphics[width=0.8\textwidth]{节点上线活动图.png}
   \caption{节点上线活动图}
   \label{fig:节点上线活动图}
 \end{figure}
@@ -440,7 +438,7 @@ Docker镜像为了节省存储和带宽，采用了分层构建的机制，镜�
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=1\textwidth]{节点下线活动图.png}
+  \includegraphics[width=0.8\textwidth]{节点下线活动图.png}
   \caption{节点下线活动图}
   \label{fig:节点下线活动图}
 \end{figure}
@@ -455,7 +453,7 @@ Docker镜像为了节省存储和带宽，采用了分层构建的机制，镜�
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=1\textwidth]{节点删除活动图.png}
+  \includegraphics[width=0.8\textwidth]{节点删除活动图.png}
   \caption{节点删除活动图}
   \label{fig:节点删除活动图}
 \end{figure}
@@ -467,8 +465,8 @@ Docker镜像为了节省存储和带宽，采用了分层构建的机制，镜�
 同时，由于流水线中存在四个不同层级的子概念，所以本系统中可梳理出2×4=8个与流水线相关的实体：
 流水线配置、阶段配置、作业配置、任务配置、流水线运行记录、阶段运行记录、作业运行记录、任务运行记录。
 
-同时，根据前文对需求的整理和分析，系统中还需要对镜像、节点和插件三个概念进行抽象，而节点又是根据Tag标签的方式与作业进行联系的。
-所以系统中还应有镜像、节点、节点标签和插件四个实体，加上流水线相关实体，共12个实体。
+同时，根据前文对需求的整理和分析，系统中还需要对镜像和节点两个概念进行抽象，而节点又是根据Tag标签的方式与作业进行联系的。
+所以系统中还应有镜像、节点和节点标签三个实体，加上流水线相关实体，共11个实体。
 
 接下来对实体中的主要属性进行分析，由于流水线相关实体较多且内容具有相似性，此处选取代表性的“作业”相关实体进行分析。
 
@@ -534,18 +532,15 @@ Docker镜像为了节省存储和带宽，采用了分层构建的机制，镜�
 
 其余的流水线配置、阶段配置与任务配置中的属性与作业配置大同小异，此处不再赘述。
 
-然后分析镜像、节点、节点标签和插件四个实体。
+然后分析镜像、节点和节点标签三个实体。
 对于Docker镜像，有镜像名、镜像ID、镜像描述等基本信息，同时应有镜像标签（Image Label）镜像地址等与镜像存储相关的属性；
 节点的本质是一个服务器，应包含服务器信息，如服务器IP、端口号、主机名、登录凭证等，同时也应包含节点名称、节点描述等基本信息。
-节点标签是不同作业分配到不同节点上的依据，同时又是节点与作业多对多关系的中间表，包含名称、节点ID、作业ID等属性；
-插件作为任务的模板，包含了大部分任务实体中的属性，如脚本内容、环境变量等，同时包含一些插件特有的属性，如版本号、配置表单、插件logo等。
+节点标签是不同作业分配到不同节点上的依据，同时又是节点与作业多对多关系的中间表，包含名称、节点ID、作业ID等属性。
 
 最后分析系统内实体之间的关系。一个配置的一次执行即产生了一个运行实例，这与编程语言中“类”和“类对象”的关系类似，
 即“运行”是“配置”的实例化，“配置”是“运行”的模板，因此配置与运行是一对多的关系。
 同时根据流水线的各个子概念的定义，我们知道有：流水线与阶段是一对多的关系，阶段与作业是一对多的关系，作业与任务是一对多的关系。
-由于作业中包含镜像，所以镜像与作业是一对多的关系。
-每个作业需要指定一个节点或多个节点，每个节点又可以被多个作业所指定，所以作业与节点是多对多的关系，作业标签自然就是作业与节点的中间表。
-插件由于是任务的模板，所以与任务是一对多的关系，一个插件可以应用于多个任务，一个任务只能指定一个插件。
+由于作业中包含镜像，所以镜像与作业是一对多的关系。每个作业需要指定一个节点或多个节点，每个节点又可以被多个作业所指定，所以作业与节点是多对多的关系，作业标签自然就是作业与节点的中间表。
 
 结合以上分析，可得出系统的实体-关系图（E-R图）如图~\ref{fig:系统E-R图}：
 

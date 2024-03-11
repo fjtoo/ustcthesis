@@ -1,15 +1,21 @@
 % !TeX root = ../main.tex
 
 \chapter{系统详细设计与实现}
+本章将从具体的细节上着手阐述系统中各个功能模块与架构模块的具体实现，重点在于内部算法和数据结构的设计与实现。
 
 \section{流水线管理}
-% 流水线管理主要包含对流水线中各个子概念及其操作的封装。类图如图\ref{fig:流水线管理类图}所示。
+流水线管理主要包含对流水线中各个子概念及其操作的封装，包括流水线实体类、流水线运行记录类、阶段实体类、阶段运行记录类、作业实体类、作业运行记录类、任务实体类、任务运行记录类。
+类图如图\ref{fig:流水线管理类图}所示。
 % \begin{figure}[h]
 %   \centering
 %   \includegraphics[width=1\textwidth]{流水线管理类图.png}
 %   \caption{流水线管理类图}
 %   \label{fig:流水线管理类图}
 % \end{figure}
+
+\subsection{创建并配置流水线}
+
+\subsection{触发流水线}
 
 \section{镜像管理}
 镜像管理的实现主要涉及到对Docker镜像及其操作的封装抽象，以及对Layer层的管理。类图如图\ref{fig:镜像管理类图}所示。
@@ -169,7 +175,7 @@ Scheduler在接收到一批待处理作业后，会根据每个作业的具体�
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=1\textwidth]{作业调度时序图.png}
+  \includegraphics[width=0.8\textwidth]{作业调度时序图.png}
   \caption{作业调度时序图}
   \label{fig:作业调度时序图}
 \end{figure}
