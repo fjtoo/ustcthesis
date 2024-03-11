@@ -15,7 +15,19 @@
 
 \subsection{创建并配置流水线}
 
+
+
 \subsection{触发流水线}
+
+对于流水线的触发，首先将从流水线实体开始调用Pipeline.trigger()方法，该方法中将递归地调用其包含的所有阶段实体的Stage.trigger()方法，
+此后每个阶段实体会调用其包含的所有作业实体的Job.trigger()方法，同理调用任务实体的Job.trigger()方法。
+每个实体的trigger()方法首先会根据自身的属性创建出对应的运行记录对象实体，并调用Pipeline.create()方法，与上述的trigger()方法类似，
+这一方法会递归调用其下的PipelineRunInfo、JobRunInfo和TaskRunInfo的create()方法，创建出与流水线嵌套结构相同的运行记录实体，并存储到数据库。
+
+创建运行记录实体的过程完成后，Backend模块将把当前流水线的结构与配置转化为Json格式发送给调度器。
+此后由调度器中的作业中心进行接收并调用JobManager.addJob()进行进一步封装后，
+交由调度器中的决策中心发出TriggerEvent触发事件，作业中心将调用JobManager.SubmitJob()将作业交付塞入消息队列中。
+最后与作业Tag匹配的节点中的执行器将会从消息队列中得到该作业并开始执行。
 
 \section{镜像管理}
 镜像管理的实现主要涉及到对Docker镜像及其操作的封装抽象，以及对Layer层的管理。类图如图\ref{fig:镜像管理类图}所示。
