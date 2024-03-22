@@ -2,6 +2,7 @@
 
 \chapter{系统详细设计与实现}
 本章将从具体的细节上着手阐述系统中各个功能模块与架构模块的具体实现，重点在于内部算法和数据结构的设计与实现。
+由于执行器采用开源的Gitlab Runner，消息队列使用成熟的RocketMQ消息队列中间件，故本章重点介绍Backend的三大功能模块：流水线管理、镜像管理和节点管理，以及调度器的具体内部实现。
 
 \section{流水线管理}
 流水线管理主要包含对流水线中各个子概念及其操作的封装，包括流水线实体类、流水线运行记录类、阶段实体类、阶段运行记录类、作业实体类、作业运行记录类、任务实体类、任务运行记录类。
@@ -25,7 +26,7 @@
 \subsection{触发流水线}
 
 对于流水线的触发，首先将从流水线实体开始调用Pipeline.trigger()方法，该方法中将递归地调用其包含的所有阶段实体的Stage.trigger()方法，
-此后每个阶段实体会调用其包含的所有作业实体的Job.trigger()方法，同理调用任务实体的Job.trigger()方法。
+此后每个阶段实体会调用其包含的所有作业实体的Job.trigger()方法，同理调用任务实体的Task.trigger()方法。
 每个实体的trigger()方法首先会根据自身的属性创建出对应的运行记录对象实体，并调用Pipeline.create()方法，与上述的trigger()方法类似，
 这一方法会递归调用其下的PipelineRunInfo、JobRunInfo和TaskRunInfo的create()方法，创建出与流水线嵌套结构相同的运行记录实体，并存储到数据库。
 
@@ -33,6 +34,15 @@
 此后由调度器中的作业中心进行接收并调用JobManager.addJob()进行进一步封装后，
 交由调度器中的决策中心发出TriggerEvent触发事件，作业中心将调用JobManager.SubmitJob()将作业交付塞入消息队列中。
 最后与作业Tag匹配的节点中的执行器将会从消息队列中得到该作业并开始执行。
+
+触发流水线时序图如图\ref{fig:触发流水线时序图}所示。
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=1\textwidth]{触发流水线时序图.png}
+  \caption{触发流水线时序图}
+  \label{fig:触发流水线时序图}
+\end{figure}
 
 \section{镜像管理}
 镜像管理的实现主要涉及到对Docker镜像及其操作的封装抽象，以及对Layer层的管理。类图如图\ref{fig:镜像管理类图}所示。
