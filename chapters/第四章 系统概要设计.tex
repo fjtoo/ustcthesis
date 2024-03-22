@@ -193,12 +193,12 @@ Backend有以下三种典型服务场景：
 当决策中心收到Backend发出的跳过或取消作业的命令时，首先判断任务状态是否为执行中，只有任务状态为执行中时才允许跳过与取消。
 然后决策中心将发出跳过或取消事件交由作业状态机进行状态流转，此后需要调度器主动向执行器发出一个中止作业的命令，避免执行器继续执行作业，浪费系统资源。
 
-跳过作业与取消作业时序图如图\ref{}所示。
+跳过作业与取消作业时序图如图\ref{fig:跳过或取消作业时序图}所示。
 
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.8\textwidth]{跳过或取消作业时序图.png}
-  \caption{跳过或取消作业时序图时序图}
+  \caption{跳过或取消作业时序图}
   \label{fig:跳过或取消作业时序图}
 \end{figure}
 
@@ -274,7 +274,7 @@ JFrog Artifactory存储镜像管理模块涉及到的Docker镜像，以及流水
     \midrule
     结构化数据     & 配置信息和运行记录      & 关系型数据库   & PostgreSQL       \\
     缓存数据       & 接口响应数据                   & 键值存储   & Redis       \\
-    二进制数据     & Docker镜像、流水线任务执行产物  & 二进制数据管理系统   & JFrog Artifactory   \\
+    二进制数据     & Docker镜像、执行产物  & 二进制数据管理系统   & JFrog Artifactory   \\
     日志数据       & 日志                & 分布式日志系统  & Elastic Search       \\
     \bottomrule
   \end{tabular}
