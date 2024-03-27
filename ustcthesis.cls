@@ -1892,7 +1892,7 @@
     \vskip 0.9cm%
     \parbox[t][3.5cm][c]{\textwidth}{%
       \centering\sffamily\bfseries\fontsize{26bp}{50bp}\selectfont
-      \mbox{\ustc@title}\par}\par
+      \ustc@title}\par
     \vskip 0.6cm%
     {\fontsize{16bp}{31bp}\selectfont
       \begin{tabular}{@{}l@{\hspace{\ccwd}}l@{}}%

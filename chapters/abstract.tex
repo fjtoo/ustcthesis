@@ -7,23 +7,31 @@
 
 \begin{abstract}
   随着软件工程的理论发展与工程实践，敏捷开发成为了现代软件开发的主流模式，软件迭代周期大幅缩短，每天都需要进行持续集成与持续交付，
-  继而发布新的版本。一个软件的迭代周期包含着诸多阶段，如果这些步骤每次都需要人工定义与执行，无疑会降低开发效率且容易出错。
+  继而发布新的版本。一个软件的迭代周期包含着诸多阶段，如果这些步骤每次都需要人工定义与执行，无疑会降低开发效率且增加出错风险。
+  现代软件工程中往往采用“流水线”的模型，以自动化地串联起软件开发的各个阶段，以提高软件的交付效率与质量。
 
-  在这样的背景下，通过建设一套自动化的持续集成与持续交付平台，可以自动化地完成测试、构建和部署等一系列行为，降低开发与运维过程中的人力和时间成本，提升企业效能。
+  在这样的背景下，通过建设一套用于持续集成与持续交付的流水线平台，自动化地完成测试、构建和部署等一系列行为，可以显著降低开发与运维过程中的人力和时间成本，提升企业效能。
   在调研了当前市面的持续集成与持续交付平台后，发现以Jenkins为代表的主流平台存在使用门槛高、流水线层级划分粒度粗和功能不够丰富等痛点问题，难以满足企业和用户日益增加的业务场景需求。
   本文设计并开发了一套基于容器化的持续集成与持续交付调度系统，抛弃传统平台使用配置文件来定义流水线的方法，而是使用图形化界面来实现对流水线的配置与拓扑结构的编辑，极大地降低了平台使用门槛。
   在功能上，本系统设计了丰富的人工干预流水线操作，如跳过、取消、重试和人工审核等，极大地丰富了流水线运行过程中的可操作性，满足不同的业务需求，同时允许用户对执行流水线作业所需的镜像和节点进行管理，提升用户的使用效率。
   在架构上，本系统以Docker容器作为系统执行器的执行环境，并提供故障转移与横向扩展功能，提高了作业执行的一致性与隔离性。
 
   经过系统测试，本系统功能性需求符合预期，在非作业高峰期时系统性能达到了预期目标，在系统承载作业量达35个/分钟，系统开始出现性能瓶颈，
-  在绝大多非极端情况下满足能够用户需求。同时，系统将在后续的迭代中持续更新，提高系统的性能与质量。
+  在绝大多非极端情况下满足能够用户需求。同时，系统将不断地迭代和更新，以进一步优化系统的功能与性能。
 
 \end{abstract}
 
 \begin{abstract*}
-  With the theoretical development and engineering practice of software engineering, agile development has become the mainstream model of modern software development. The software iteration cycle has significantly shortened, necessitating continuous integration and continuous delivery every day to release new versions. A software's iteration cycle includes many phases, and if these steps need to be manually defined and executed each time, it will undoubtedly reduce development efficiency and be prone to errors.
-
-In this context, by building an automated continuous integration and delivery platform, it is possible to automate a series of actions such as testing, building, and deploying, thereby reducing the manpower and time costs in the development and operation process and enhancing enterprise efficiency. After researching the current market's continuous integration and delivery platforms, it has been found that mainstream platforms represented by Jenkins have pain points such as a high usage threshold, coarse granularity of pipeline hierarchical division, and lack of rich features, which are difficult to meet the increasing business scenario needs of enterprises and users. This paper designs and develops a containerized continuous integration and delivery scheduling system, abandoning the traditional platform's method of defining pipelines with configuration files and instead using a graphical interface to configure and edit the topology structure of pipelines, greatly lowering the platform's usage threshold. In terms of functionality, this system has designed a rich set of manual pipeline operations, such as skip, cancel, retry, and manual review, greatly enriching the operability during the pipeline's execution process to meet different business needs, while allowing users to manage the images and nodes required for executing pipeline jobs, enhancing user efficiency. Architecturally, this system uses Docker containers as the execution environment for the system executor and provides failover and horizontal scaling functions, improving the consistency and isolation of job execution.
-
-After system testing, the functional requirements of the system have been met as expected, and the system performance has reached the expected targets during non-peak periods. When the system job load reaches 35 jobs/minute, the system begins to experience performance bottlenecks, but it satisfies user needs in the vast majority of non-extreme cases. Additionally, the system will continue to be updated in subsequent iterations to improve system performance and quality.
+  With the theoretical advancement and engineering practices in software engineering, agile development has emerged as the mainstream model for modern software development, significantly shortening the software iteration cycles, necessitating continuous integration and continuous delivery on a daily basis.
+  Subsequently, new versions are released. The iteration cycle of a software encompasses numerous stages.  If these steps require manual definition and execution each time, it undoubtedly diminishes development efficiency and increases the risk of errors.
+  In modern software engineering, the "pipeline" model is frequently adopted to automate the sequential stages of software development, aiming to enhance the efficiency and quality of software delivery.
+  Against this backdrop, by constructing a pipeline platform for continuous integration and delivery, and automating a series of actions including testing, building, and deployment, it can significantly reduce the labor and time costs in the development and operation processes, thereby enhancing the efficiency of the enterprise.
+  
+  Upon conducting research on the current continuous integration and delivery platforms available in the market, it has been observed that mainstream platforms, such as Jenkins, pose challenges in terms of high entry barriers, coarse-grained pipeline segmentation, and insufficient functionality.  These limitations make it difficult to meet the growing business scenario requirements of enterprises and users.
+  This article presents the design and development of a container-based continuous integration and continuous delivery scheduling system.  Instead of utilizing configuration files to define pipelines as traditional platforms do, it employs a graphical interface for pipeline configuration and topology editing, significantly lowering the barrier to platform use.
+  In terms of functionality, this system has been designed with a diverse array of manual intervention pipeline operations, such as skipping, canceling, retrying, and manual review.  This greatly enhances the operability of the pipeline operation process, meeting various business requirements.  Additionally, it allows users to manage the images and nodes required for executing pipeline tasks, thereby improving user efficiency.
+  In terms of architecture, this system utilizes Docker containers as the execution environment for system actuators, offering failover and horizontal scaling capabilities, thereby enhancing the consistency and isolation of job execution.
+  
+  After system testing, it has been determined that the functional requirements of this system meet expectations.  During non-peak operational periods, the system's performance reaches the anticipated goals.  However, when the system's workload reaches 35 tasks per minute, performance bottlenecks begin to emerge.
+  In the vast majority of non-extreme scenarios, the system meets user needs. Additionally, the system will undergo continuous updates in subsequent iterations to enhance its performance and quality.
 \end{abstract*}
